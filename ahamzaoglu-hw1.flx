@@ -1,0 +1,60 @@
+%{
+int noOfLines = 1;
+%}
+tQE \"
+tLBRAC \[
+tRBRAC \]
+tSET \"Set\"
+tGET \"Get\"
+tFUNCTION \"Function\"
+tPRINT \"Print\"
+tFOR \"For\"
+tIF \"If\"
+tRETURN \"Return\"
+tCOMMA \,
+tPLUS \+
+tMUL \*
+tINC \++
+tGT \>
+tGEQ \>=
+tEQUALITY \==
+tDIV \/
+tMINUS \"\-\"
+tDEC \"\-\-\"
+tLT \<
+tLEQ \<=
+tNUM [-0-9.0-9]*
+tIDENT \"[a-zA-Z_][a-zA-Z0-9_]*\"
+tSTRING '(.*?)'
+%%
+{tPLUS} printf("%d tPLUS\n", noOfLines);
+{tMUL} printf("%d tMUL\n", noOfLines);
+{tINC} printf("%d tINC\n", noOfLines);
+{tGT} printf("%d tGT\n", noOfLines);
+{tGEQ} printf("%d tGEQ\n", noOfLines);
+{tEQUALITY} printf("%d tEQUALITY\n", noOfLines);
+{tMINUS} printf("%d tMINUS\n", noOfLines);
+{tDEC} printf("%d tDEC\n", noOfLines);
+{tDIV} printf("%d tDIV\n", noOfLines);
+{tLT} printf("%d tLT\n", noOfLines);
+{tLEQ} printf("%d tLEQ\n", noOfLines);
+{tNUM} printf("%d tNUM (%s) (%d)\n", noOfLines, yytext, atoi(yytext)); 
+\n noOfLines++;
+{tLBRAC} printf("%d tLBRAC\n", noOfLines);
+{tRBRAC} printf("%d tRBRAC\n", noOfLines);
+{tSET} printf("%d tSET\n", noOfLines);
+{tGET} printf("%d tGET\n", noOfLines);
+{tFUNCTION} printf("%d tFUNCTION\n", noOfLines);
+{tPRINT} printf("%d tPRINT\n", noOfLines);
+{tFOR} printf("%d tFOR\n", noOfLines);
+{tIF} printf("%d tIF\n", noOfLines);
+{tRETURN} printf("%d tRETURN\n", noOfLines);
+{tQE} printf("");
+{tCOMMA} printf("%d tCOMMA\n", noOfLines);
+{tIDENT} printf("%d tIDENT (%s)\n", noOfLines, yytext+1);
+{tSTRING} printf("%d tSTRING (%s)\n", noOfLines, yytext+1);
+.
+%%
+main() {
+  yylex();
+}
