@@ -11,23 +11,27 @@ tPRINT \"Print\"
 tFOR \"For\"
 tIF \"If\"
 tRETURN \"Return\"
-tCOMMA \,
-tPLUS \+
-tMUL \*
-tINC \++
-tGT \>
-tGEQ \>=
-tEQUALITY \==
-tDIV \/
+tCOMMA ","
+tPLUS \"\+\"
+tMUL \"\*\"
+tINC \"\+\+\"
+tGT \"\>\"
+tGEQ \"\>\=\"
+tEQUALITY \"\=\=\"
+tDIV \"\/\"
 tMINUS \"\-\"
 tDEC \"\-\-\"
-tLT \<
-tLEQ \<=
-tNUMA [-0-9]*
-tNUMB [-0-9.0-9]*
-tIDENT \"[a-zA-Z_][a-zA-Z0-9_]*
-tSTRING \'[a-zA-Z \!\.]+
+tLT \"\<\"
+tLEQ \"\<\=\"
+tNUMA -?[0-9]+
+tNUMB -?[0-9]+\.[0]+
+tNUMC -?[0-9]+\.[0-9]+
+tIDENT \"[a-zA-Z_][a-zA-Z0-9_]*\"
+%x string
 %%
+\' printf("%d tSTRING (", noOfLines); BEGIN(string); 
+<string>\' printf(")\n"); BEGIN(INITIAL);
+<string>\n noOfLines++; printf("\n");
 {tPLUS} printf("%d tPLUS\n", noOfLines);
 {tMUL} printf("%d tMUL\n", noOfLines);
 {tINC} printf("%d tINC\n", noOfLines);
@@ -39,9 +43,11 @@ tSTRING \'[a-zA-Z \!\.]+
 {tDIV} printf("%d tDIV\n", noOfLines);
 {tLT} printf("%d tLT\n", noOfLines);
 {tLEQ} printf("%d tLEQ\n", noOfLines);
-{tNUMA} printf("%d tNUM (%s) (%s)\n", noOfLines, yytext, yytext); 
+{tNUMA} printf("%d tNUM (%s) (%d)\n", noOfLines, yytext, atoi(yytext)); 
+{tNUMB}	printf("%d tNUM (%s) (%.1f)\n", noOfLines, yytext, atof(yytext));
 
-{tNUMB} {  	const char *ptr = strchr(yytext, '.');
+{tNUMC} {  	printf("%d tNUM (%s) (%.15g)\n", noOfLines, yytext, atof(yytext));
+		/*const char *ptr = strchr(yytext, '.');
 		int index = (ptr - yytext);
 		int i = 0;
 		char first[index]; 
@@ -55,7 +61,7 @@ tSTRING \'[a-zA-Z \!\.]+
 		char second[h - index];
 		int ind = index; 
 		while(j != (h - ind)) { second[j] = yytext[index + 1]; j++; index++;}
-		printf("%d tNUM (%s) (%.0f.%s)\n", noOfLines, yytext, atof(first), second); }
+		printf("%d tNUM (%s) (%.0f.%s)\n", noOfLines, yytext, atof(first), second); }*/
 	}	
 
 \n noOfLines++;
@@ -70,8 +76,7 @@ tSTRING \'[a-zA-Z \!\.]+
 {tRETURN} printf("%d tRETURN\n", noOfLines);
 {tQE} printf("");
 {tCOMMA} printf("%d tCOMMA\n", noOfLines);
-{tIDENT} printf("%d tIDENT (%s)\n", noOfLines, yytext+1);
-{tSTRING} printf("%d tSTRING (%s)\n", noOfLines, yytext+1);
+{tIDENT} printf("%d tIDENT (%.*s)\n", noOfLines, strlen(yytext)-2, yytext+1);
 .
 %%
 main() {
