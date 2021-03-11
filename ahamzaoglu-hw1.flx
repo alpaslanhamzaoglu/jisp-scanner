@@ -46,23 +46,7 @@ tIDENT \"[a-zA-Z_][a-zA-Z0-9_]*\"
 {tNUMA} printf("%d tNUM (%s) (%d)\n", noOfLines, yytext, atoi(yytext)); 
 {tNUMB}	printf("%d tNUM (%s) (%.1f)\n", noOfLines, yytext, atof(yytext));
 
-{tNUMC} {  	printf("%d tNUM (%s) (%.15g)\n", noOfLines, yytext, atof(yytext));
-		/*const char *ptr = strchr(yytext, '.');
-		int index = (ptr - yytext);
-		int i = 0;
-		char first[index]; 
-		while(i != index) { first[i] = yytext[i]; i++; }
-		int h = strlen(yytext) - 1;
-		while(h != index && yytext[h] == '0') { h--;}
-		int j = 0;
-		if(h == index) {char second[] = "0";
-		printf("%d tNUM (%s) (%.0f.%s)\n", noOfLines, yytext, atof(first), second); }
-		else {
-		char second[h - index];
-		int ind = index; 
-		while(j != (h - ind)) { second[j] = yytext[index + 1]; j++; index++;}
-		printf("%d tNUM (%s) (%.0f.%s)\n", noOfLines, yytext, atof(first), second); }*/
-	}	
+{tNUMC} { printf("%d tNUM (%s) (%.15g)\n", noOfLines, yytext, atof(yytext)); }	
 
 \n noOfLines++;
 {tLBRAC} printf("%d tLBRAC\n", noOfLines);
