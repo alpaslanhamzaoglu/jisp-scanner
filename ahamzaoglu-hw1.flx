@@ -40,7 +40,24 @@ tSTRING \'[a-zA-Z \!\.]+
 {tLT} printf("%d tLT\n", noOfLines);
 {tLEQ} printf("%d tLEQ\n", noOfLines);
 {tNUMA} printf("%d tNUM (%s) (%s)\n", noOfLines, yytext, yytext); 
-{tNUMB} printf("%d tNUM (%s) (%.1f)\n", noOfLines, yytext, strtof(yytext, NULL)); 
+
+{tNUMB} {  	const char *ptr = strchr(yytext, '.');
+		int index = (ptr - yytext);
+		int i = 0;
+		char first[index]; 
+		while(i != index) { first[i] = yytext[i]; i++; }
+		int h = strlen(yytext) - 1;
+		while(h != index && yytext[h] == '0') { h--;}
+		int j = 0;
+		if(h == index) {char second[] = "0";
+		printf("%d tNUM (%s) (%.0f.%s)\n", noOfLines, yytext, atof(first), second); }
+		else {
+		char second[h - index];
+		int ind = index; 
+		while(j != (h - ind)) { second[j] = yytext[index + 1]; j++; index++;}
+		printf("%d tNUM (%s) (%.0f.%s)\n", noOfLines, yytext, atof(first), second); }
+	}	
+
 \n noOfLines++;
 {tLBRAC} printf("%d tLBRAC\n", noOfLines);
 {tRBRAC} printf("%d tRBRAC\n", noOfLines);

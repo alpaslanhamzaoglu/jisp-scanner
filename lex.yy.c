@@ -828,91 +828,106 @@ printf("%d tNUM (%s) (%s)\n", noOfLines, yytext, yytext);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 43 "ahamzaoglu-hw1.flx"
-printf("%d tNUM (%s) (%.1f)\n", noOfLines, yytext, strtof(yytext, NULL)); 
+#line 44 "ahamzaoglu-hw1.flx"
+{  	const char *ptr = strchr(yytext, '.');
+		int index = (ptr - yytext);
+		int i = 0;
+		char first[index]; 
+		while(i != index) { first[i] = yytext[i]; i++; }
+		int h = strlen(yytext) - 1;
+		while(h != index && yytext[h] == '0') { h--;}
+		int j = 0;
+		if(h == index) {char second[] = "0";
+		printf("%d tNUM (%s) (%.0f.%s)\n", noOfLines, yytext, atof(first), second); }
+		else {
+		char second[h - index];
+		int ind = index; 
+		while(j != (h - ind)) { second[j] = yytext[index + 1]; j++; index++;}
+		printf("%d tNUM (%s) (%.0f.%s)\n", noOfLines, yytext, atof(first), second); }
+	}	
 	YY_BREAK
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 44 "ahamzaoglu-hw1.flx"
+#line 61 "ahamzaoglu-hw1.flx"
 noOfLines++;
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 45 "ahamzaoglu-hw1.flx"
+#line 62 "ahamzaoglu-hw1.flx"
 printf("%d tLBRAC\n", noOfLines);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 46 "ahamzaoglu-hw1.flx"
+#line 63 "ahamzaoglu-hw1.flx"
 printf("%d tRBRAC\n", noOfLines);
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 47 "ahamzaoglu-hw1.flx"
+#line 64 "ahamzaoglu-hw1.flx"
 printf("%d tSET\n", noOfLines);
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 48 "ahamzaoglu-hw1.flx"
+#line 65 "ahamzaoglu-hw1.flx"
 printf("%d tGET\n", noOfLines);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 49 "ahamzaoglu-hw1.flx"
+#line 66 "ahamzaoglu-hw1.flx"
 printf("%d tFUNCTION\n", noOfLines);
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 50 "ahamzaoglu-hw1.flx"
+#line 67 "ahamzaoglu-hw1.flx"
 printf("%d tPRINT\n", noOfLines);
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 51 "ahamzaoglu-hw1.flx"
+#line 68 "ahamzaoglu-hw1.flx"
 printf("%d tFOR\n", noOfLines);
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 52 "ahamzaoglu-hw1.flx"
+#line 69 "ahamzaoglu-hw1.flx"
 printf("%d tIF\n", noOfLines);
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 53 "ahamzaoglu-hw1.flx"
+#line 70 "ahamzaoglu-hw1.flx"
 printf("%d tRETURN\n", noOfLines);
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 54 "ahamzaoglu-hw1.flx"
+#line 71 "ahamzaoglu-hw1.flx"
 printf("");
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 55 "ahamzaoglu-hw1.flx"
+#line 72 "ahamzaoglu-hw1.flx"
 printf("%d tCOMMA\n", noOfLines);
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 56 "ahamzaoglu-hw1.flx"
+#line 73 "ahamzaoglu-hw1.flx"
 printf("%d tIDENT (%s)\n", noOfLines, yytext+1);
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 57 "ahamzaoglu-hw1.flx"
+#line 74 "ahamzaoglu-hw1.flx"
 printf("%d tSTRING (%s)\n", noOfLines, yytext+1);
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 58 "ahamzaoglu-hw1.flx"
+#line 75 "ahamzaoglu-hw1.flx"
 
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 59 "ahamzaoglu-hw1.flx"
+#line 76 "ahamzaoglu-hw1.flx"
 ECHO;
 	YY_BREAK
-#line 916 "lex.yy.c"
+#line 931 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1906,7 +1921,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 59 "ahamzaoglu-hw1.flx"
+#line 76 "ahamzaoglu-hw1.flx"
 
 
 main() {
